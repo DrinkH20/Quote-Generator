@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "vibrant-arcanum-432521-q2",
+  "private_key_id": "dcfcab7f3af7a42c782023f8b68770860e6822aa",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDJQcTQ3L4DcvvY\n3HB81MbAIsv4/lhJX20TlBnZ26pCXKYd1uK3F8itV0D4580ln/MfNG18iio/Xl0Q\ndqb5y2oYFNu5Bk8uHtK5ViUFqdyuv8Ec3MfP7sOCq5/kd0rNHW6L/ovPXXz34O7N\nGoMt8zdBz+RU8YImHCvklWB6ya/GVhBR00tHFeTz+x8MxDl03vDQ2/F1YvZQk6s+\niBZP0e52AaOGkY9z8Nq4dxzd/QJWItk9hUKiOaClfEmKFeb/oniDrUOuUTYeKR/h\nQEEl/MNJc6v8uySE16W56Czk+KkXhzCYQHjEh1CYB7qMH0pb2gvAApY9tZhcngDQ\nNFoNrpCVAgMBAAECggEAFirO1VyC91lKYRwCrdU34QDUK6REMCy5FG97G3JlAfM3\nftDk3trZSTJznxbVE0BXZIf/STjkp18q6/3NrXTYxjdB7lLCFOfjOPPClyma+4p2\naEnvHjmDwlhJ/72d+RK1UukiGCCJe7oEQ4YYjc6ctvyBf1OsjKsMsJw9aLjfSf6N\nofHuOCSEITLXN0LxKIQa5SJKFZEM/4/5hl5UQlBVVcc5HpKIjEtIL0KoM5+cUH/D\nPhnmV219x4ZXZbn5rsW7IR0u7c1bD7zXzlAAxz+ITJeuI2NxgsyyBlcbbPAuscBR\nweErjzxuKomP0JEB/TPnW6PTFeMkkNYwnBBAuO8FbwKBgQD0JPauyosUopqUiovg\ndk8NgbWBwqgAQ0933QDQipizGDQi3qKrETL1W/QM1k5y7SLhH52waQiftvfE/8qv\niBNgqUco0rovNQ6CoTYgszoRrd1qdo6ujMPvkc6Lk7GXBCwLbkqUPNhYNsd/ZozB\nYAWYeoxlaA+Phd8oGOk16I8DywKBgQDTB6hHFeZbAvvp7A7f9K0GbaASU074OpdF\n5iKVoZikx83KN2q2QKqfLP7IGSMUrn1c5NHMTXKR7W6DywVa3pYQv3zsvJ6RaeDy\nknKsNGctFynZycihy2JuW43omXGkFcRitJNo/jS6UXqXz49JwsoFhm0Rgw/Bcx3p\nLiPD+gHxHwKBgQDO0hlfTRmw62aD+zIvfknNqVn3iM0FHABQDBpKj354CULxXyTy\nQemnTLRbw5hFZ3mquDu/W9sAYeFXM1GijWXM9tnfTVSH9SxLoQHXhbzliSIOtEx+\ntaSuaBhOyVkiE1i0fkQTe8/SOuWZmWgX0J4s43PX2+WCseevchrtngq5LQKBgB6j\nbvgbIt212jNFNYeoc3KKegIPHFkH0KyyU/UbiBjsdWFVmGWrj9oaY0dT9vbquoLB\nKgCagfbT3Qa/dCCUTn9R/eY1IGSGVcWCI6oC1bQDN+1J0ZpD+B+DpV/O32PuURvv\nkbNdrPQcHktqNCiGYmRY9v7i42e3ufD/5OtwIdYLAoGBAIhURPpsDOF+0xft1UNJ\nLldrDwXLVZMUs/DJ1edBxIofcp/oduNFOC2E1hUFLt8L5Ml0bdXiMiQF9jZJTBs1\nwJYE1Tt8v6Bv8V26hvCk7TgoS9lODkjZi1oz3WEuEj0YVR4X0PSpk2a1v2wr0tPB\nr+GA7893n5ixJWh6E9zMVO3+\n-----END PRIVATE KEY-----\n",
+  "client_email": "updatefromspreadsheet@vibrant-arcanum-432521-q2.iam.gserviceaccount.com",
+  "client_id": "117032726665497595187",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/updatefromspreadsheet%40vibrant-arcanum-432521-q2.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
