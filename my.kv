@@ -1,6 +1,7 @@
 WindowManage:
     MyLayout:
     SettingWindow:
+    CleanType:
 
 
 <MyLayout>
@@ -43,10 +44,12 @@ WindowManage:
                 id: baths_input
                 hint_text: "Enter Baths"
                 font_size: 14
-            TextInput:
+
+            Spinner:
                 id: type_input
-                hint_text: "Enter Type"
-                font_size: 14
+                text: 'Type'
+                on_press: app.root.current = "cleantype"
+
 
         BoxLayout:
             orientation: 'vertical'
@@ -97,3 +100,53 @@ WindowManage:
             text: 'Back'
             font_size: 14
             on_press: app.root.current = "main"
+
+
+<CleanType>
+    name: "cleantype"
+    BoxLayout:
+        BoxLayout:
+            orientation: 'vertical'
+            padding: 0
+            spacing: 0
+            size: root.width, root.height
+            Button:
+                id: button_2
+                text: 'Move'
+                font_size: 14
+                on_press: app.change_screen_and_update("main", "Move")
+
+            Button:
+                id: button_2
+                text: 'OneTime'
+                font_size: 14
+                on_press: app.change_screen_and_update("main", "OneTime")
+
+            Button:
+                id: button_2
+                text: 'Weekly'
+                font_size: 14
+                on_press: app.change_screen_and_update("main", "Weekly")
+
+        BoxLayout:
+            orientation: 'vertical'
+            padding: 0
+            spacing: 0
+            size: root.width, root.height
+            Button:
+                id: button_2
+                text: 'Biweekly'
+                font_size: 14
+                on_press: app.change_screen_and_update("main", "Biweekly")
+
+            Button:
+                id: button_2
+                text: 'Monthly'
+                font_size: 14
+                on_press: app.change_screen_and_update("main", "Monthly")
+
+            Button:
+                id: button_2
+                text: 'Back'
+                font_size: 14
+                on_press: app.root.current = "main"

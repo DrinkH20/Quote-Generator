@@ -20,11 +20,11 @@ import os
 
 from datetime import date
 
-# if os.path.exists("token.pickle"):
-#     os.remove("token.pickle")
-#     print("token.pickle has been deleted")
-# else:
-#     print("token.pickle does not exist")
+if os.path.exists("token.pickle"):
+    os.remove("token.pickle")
+    print("token.pickle has been deleted")
+else:
+    print("token.pickle does not exist")
 
 
 today = date.today()
@@ -80,6 +80,9 @@ def get_screenshot(com_mon=1):
 
 
 class MyLayout(Screen):
+    def change_button_type(self, change="False"):
+        self.ids.cleantype.text = change
+
     def change_button_color(self, btn, error_color=False):
         if btn == "1":
             if self.ids.button_1.background_color == [1, 0, 0, 1]:
@@ -451,6 +454,10 @@ class MyLayout(Screen):
             pyperclip.copy(body_paragraph)
 
 
+class CleanType(Screen):
+    pass
+
+
 class SettingWindow(Screen):
     def update(self, btn):
         global username
@@ -478,6 +485,13 @@ comp_mon = int(input("What monitor will you be using? "))
 
 
 class MyApp(App):
+    def change_screen_and_update(self, screen_name, update_value):
+        # Change the screen
+        self.root.current = screen_name
+        # Access the current screen's button and change the text
+        screen = self.root.get_screen(screen_name)
+        screen.ids.type_input.text = update_value
+
     def build(self):
         self.title = 'Leads Quote Generator'
         return kv
