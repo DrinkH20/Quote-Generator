@@ -5,7 +5,7 @@ from google.oauth2.service_account import Credentials
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
 TOKEN_FILE = 'token.pickle'
-CREDENTIALS_FILE = r'vibrant-arcanum-432521-q2-6a22d4e6535e.json'
+CREDENTIALS_FILE = r'vibrant-arcanum-432521-q2-e55244124dd0.json'
 
 
 def initialize_client():

@@ -352,9 +352,14 @@ class MyLayout(Screen):
                 clean_first_name = self.ids.first_name_input.text
                 names = True
 
-            def calc_price(sqft, beds, baths, type_clean, name_first, name_last):
+            def calc_price(name_first, name_last, sqft, beds, baths, type_clean):
                 elite = 250
                 ongoing = 140
+                try:
+                    print(type(int(sqft)), type(int(beds)), type(int(baths)))
+                except ValueError:
+                    return "Failed"
+
                 try:
                     # These are the base prices that are the minimum cost of cleans
                     try:
@@ -364,27 +369,29 @@ class MyLayout(Screen):
                         self.change_button_color("2", True)
                         body_paragraph = failed(month, username)
                         pyperclip.copy(body_paragraph)
-                    # On the calculator on excelsheet, "NO TOUCH k9" is the same as "before price"
-                    before_price = float(baths) * 30 + float(beds) * 5 + price_sqft
 
-                    # ["ONETIME", "MOVE", "WEEKLY", "BIWEEKLY", "MONTHLY"]
-                    if type_clean == 0:
-                        elite = before_price * ot
-                    if type_clean == 1:
-                        elite = before_price * move
-                    if type_clean == 2:
-                        ongoing = before_price * weekly
-                    if type_clean == 3:
-                        ongoing = before_price * biweekly
-                    if type_clean == 4:
-                        ongoing = before_price * monthly
+                    if baths != '':
+                        # On the calculator on excelsheet, "NO TOUCH k9" is the same as "before price"
+                        before_price = float(baths) * 30 + float(beds) * 5 + price_sqft
 
-                    if type_clean == 2 or type_clean == 3 or type_clean == 4:
-                        elite = before_price * initial
-                        if ongoing < 140:
-                            ongoing = 140
-                    if elite < 250:
-                        elite = 250
+                        # ["ONETIME", "MOVE", "WEEKLY", "BIWEEKLY", "MONTHLY"]
+                        if type_clean == 0:
+                            elite = before_price * ot
+                        if type_clean == 1:
+                            elite = before_price * move
+                        if type_clean == 2:
+                            ongoing = before_price * weekly
+                        if type_clean == 3:
+                            ongoing = before_price * biweekly
+                        if type_clean == 4:
+                            ongoing = before_price * monthly
+
+                        if type_clean == 2 or type_clean == 3 or type_clean == 4:
+                            elite = before_price * initial
+                            if ongoing < 140:
+                                ongoing = 140
+                        if elite < 250:
+                            elite = 250
 
                     text_info = get_quote_text(month, round(elite), round(ongoing), list_for_scripts, name_first, username, clean_sqft,
                                                clean_beds, clean_baths)
@@ -392,9 +399,14 @@ class MyLayout(Screen):
                     time.sleep(0.4)
                     if names:
                         title = get_title(clean_sqft, clean_beds, clean_baths, list_for_scripts, name_last, name_first)
-                        pyperclip.copy(title)
-                        time.sleep(0.4)
-                        main_info = get_quote(month, round(elite), round(ongoing), list_for_scripts, name_first, username)
+                        # Error handling
+                        if title == "Failed":
+                            print("Error Loading Quote")
+                            self.change_button_color("2", True)
+                        else:
+                            pyperclip.copy(title)
+                            time.sleep(0.4)
+                            main_info = get_quote(month, round(elite), round(ongoing), list_for_scripts, name_first, username)
                     else:
                         title = get_title_manual(clean_sqft, clean_beds, clean_baths, list_for_scripts)
                         pyperclip.copy(title)
@@ -410,7 +422,7 @@ class MyLayout(Screen):
                     pyperclip.copy(body_paragraph)
                 return elite, ongoing
 
-            scripts_choose = ["ONETIME", "MOVE", "WEEKLY", "BIWEEKLY", "MONTHLY"]
+            scripts_choose = ["ONETIME", "MOVE", "WEEKLY", "BIWEEKLY", "MONTHLY", "OUT OF SERVICE"]
 
             try:
                 if clean_type != "":
@@ -446,7 +458,11 @@ class MyLayout(Screen):
 
                 return sqft_price
 
-            calc_price(clean_sqft, clean_beds, clean_baths, list_for_scripts, clean_first_name, clean_last_name)
+            if calc_price(clean_first_name, clean_last_name, clean_sqft, clean_beds, clean_baths, list_for_scripts) == "Failed":
+                print("Error Loading Quote")
+                self.change_button_color("2", True)
+                body_paragraph = failed(month, username)
+                pyperclip.copy(body_paragraph)
         except ValueError and UnboundLocalError and IndexError and UnboundLocalError:
             print("Error Loading Quote")
             self.change_button_color("2", True)
