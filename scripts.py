@@ -42,7 +42,7 @@ def get_title(sqft, beds, baths, part_list, last, first):
                    f"{last}, {first} - Weekly Cleans {sqft} sqft, {beds} Bed, {baths} Baths",
                    f"{last}, {first} - Biweekly Cleans {sqft} sqft, {beds} Bed, {baths} Baths",
                    f"{last}, {first} - Monthly Cleans {sqft} sqft, {beds} Bed, {baths} Baths",
-                   f"{last}, {first} - Out of Service Area"]
+                   f"Out of Service Area"]
     return scripts[part_list]
 
 
@@ -197,6 +197,19 @@ Best,
 
 {username}"""]
     return scripts[part_list]
+
+
+def out_of_service_area(username=""):
+    scripts = f"""Hi there,
+
+Thank you for reaching out about cleans! We'd love to help!
+
+It looks like the address you provided is in Salem which is outside of our service area. Do you have an address that is closer to the Portland Metro area? Let me know and we'd love to help you with your cleaning needs!
+
+Best,
+
+{username}"""
+    return scripts
 
 
 def failed(date_month, username=""):

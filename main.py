@@ -1,4 +1,4 @@
-from scripts import get_title, get_quote, get_title_manual, get_quote_text, failed
+from scripts import get_title, get_quote, get_title_manual, get_quote_text, failed, out_of_service_area
 from PIL import Image
 from server_price_connect import update_servers
 import pytesseract
@@ -401,7 +401,7 @@ class MyLayout(Screen):
                         title = get_title(clean_sqft, clean_beds, clean_baths, list_for_scripts, name_last, name_first)
                         # Error handling
                         if title == "Failed":
-                            print("Error Loading Quote")
+                            print("Error Loading Quotes")
                             self.change_button_color("1", True)
                         else:
                             pyperclip.copy(title)
@@ -422,7 +422,7 @@ class MyLayout(Screen):
                     pyperclip.copy(body_paragraph)
                 return elite, ongoing
 
-            scripts_choose = ["ONETIME", "MOVE", "WEEKLY", "BIWEEKLY", "MONTHLY", "OUT OF SERVICE"]
+            scripts_choose = ["ONETIME", "MOVE", "WEEKLY", "BIWEEKLY", "MONTHLY", "FAR"]
 
             try:
                 if clean_type != "":
@@ -459,9 +459,15 @@ class MyLayout(Screen):
                 return sqft_price
 
             if calc_price(clean_first_name, clean_last_name, clean_sqft, clean_beds, clean_baths, list_for_scripts) == "Failed":
-                print("Error Loading Quote")
+                print("Error Loading Quotes")
                 self.change_button_color("1", True)
-                body_paragraph = failed(month, username)
+                if list_for_scripts != 5:
+                    body_paragraph = failed(month, username)
+                else:
+                    title = get_title(clean_sqft, clean_beds, clean_baths, list_for_scripts, clean_last_name, clean_first_name)
+                    pyperclip.copy(title)
+                    time.sleep(0.4)
+                    body_paragraph = out_of_service_area(username)
                 pyperclip.copy(body_paragraph)
         except ValueError and UnboundLocalError and IndexError and UnboundLocalError:
             print("Error Loading Quote")
