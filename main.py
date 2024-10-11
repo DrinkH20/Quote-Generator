@@ -356,7 +356,7 @@ class MyLayout(Screen):
                 elite = 250
                 ongoing = 140
                 try:
-                    print(type(int(sqft)), type(int(beds)), type(int(baths)))
+                    print(type(float(sqft)), type(float(beds)), type(float(baths)))
                 except ValueError:
                     return "Failed"
 
