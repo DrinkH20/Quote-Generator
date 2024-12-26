@@ -239,7 +239,7 @@ class MyLayout(Screen):
                 pyperclip.copy(body_paragraph)
 
             def calc_price(sqft, beds, baths, type_clean, name_first):
-                elite = 250
+                elite = 200
                 ongoing = 140
                 try:
                     # These are the base prices that are the minimum cost of cleans
@@ -268,8 +268,8 @@ class MyLayout(Screen):
                         elite = before_price * initial
                         if ongoing < 140:
                             ongoing = 140
-                    if elite < 250:
-                        elite = 250
+                    if elite < 200:
+                        elite = 200
 
                     text_info = get_quote_text(month, round(elite), round(ongoing), list_for_scripts, name_first, username, clean_sqft,
                                                clean_beds, clean_baths)
@@ -353,7 +353,7 @@ class MyLayout(Screen):
                 names = True
 
             def calc_price(name_first, name_last, sqft, beds, baths, type_clean):
-                elite = 250
+                elite = 200
                 ongoing = 140
                 try:
                     print(type(float(sqft)), type(float(beds)), type(float(baths)))
@@ -390,8 +390,8 @@ class MyLayout(Screen):
                             elite = before_price * initial
                             if ongoing < 140:
                                 ongoing = 140
-                        if elite < 250:
-                            elite = 250
+                        if elite < 200:
+                            elite = 200
 
                     text_info = get_quote_text(month, round(elite), round(ongoing), list_for_scripts, name_first, username, clean_sqft,
                                                clean_beds, clean_baths)
