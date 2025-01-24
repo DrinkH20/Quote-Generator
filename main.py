@@ -39,9 +39,21 @@ onetime_discount = .05
 
 # Updates from the estimator on googlesheets
 # These are all the factors that need to be used to multiply the base price by to get the correct price to leads
-ot, initial, move, monthly, biweekly, weekly = map(float, update_servers())
-print("Prices successfully updated!")
-print(ot, initial, move, monthly, biweekly, weekly)
+ot, initial, move, monthly, biweekly, weekly = 1, 1, 1, 1, 1, 1
+
+
+def get_prices_googlesheets():
+    global ot, initial, move, monthly, biweekly, weekly
+    set_ot, set_initial, set_move, set_monthly, set_biweekly, set_weekly = map(float, update_servers())
+    if (ot, initial, move, monthly, biweekly, weekly) == (set_ot, set_initial, set_move, set_monthly, set_biweekly, set_weekly):
+        print("No change needed")
+    else:
+        ot, initial, move, monthly, biweekly, weekly = set_ot, set_initial, set_move, set_monthly, set_biweekly, set_weekly
+        print("Prices successfully updated!")
+    print(ot, initial, move, monthly, biweekly, weekly)
+
+
+get_prices_googlesheets()
 
 
 def get_screenshot(com_mon=1):
@@ -493,6 +505,10 @@ class SettingWindow(Screen):
             comp_mon = int(comp_mon)
         except ValueError:
             print("No Monitor Entered")
+        print("Updated!")
+
+    def update_price(self, btn):
+        get_prices_googlesheets()
         print("Updated!")
     pass
 

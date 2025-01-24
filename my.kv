@@ -94,12 +94,20 @@ WindowManage:
                 text: 'Update'
                 font_size: 14
                 on_press: root.update(updated)
-
-        Button:
-            id: button_2
-            text: 'Back'
-            font_size: 14
-            on_press: app.root.current = "main"
+        BoxLayout:
+            orientation: 'horizontal'
+            padding: 0
+            spacing: 0
+            Button:
+                id: button_2
+                text: 'Back'
+                font_size: 14
+                on_press: app.root.current = "main"
+            Button:
+                id: updated
+                text: 'Update Price'
+                font_size: 14
+                on_press: root.update_price(updated)
 
 
 <CleanType>
