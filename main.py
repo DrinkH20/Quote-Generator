@@ -285,6 +285,8 @@ class MyLayout(Screen):
 
                     text_info = get_quote_text(month, round(elite), round(ongoing), list_for_scripts, name_first, username, clean_sqft,
                                                clean_beds, clean_baths)
+                    pyperclip.copy(f"Lead {name_first} {clean_last_name}")
+                    time.sleep(0.4)
                     pyperclip.copy(text_info)
                     time.sleep(0.4)
                     title = get_title(clean_sqft, clean_beds, clean_baths, list_for_scripts, clean_last_name, clean_first_name)
@@ -405,10 +407,13 @@ class MyLayout(Screen):
                         if elite < 200:
                             elite = 200
 
+                    pyperclip.copy(f"Lead {name_first} {name_last}")
+                    time.sleep(0.4)
                     text_info = get_quote_text(month, round(elite), round(ongoing), list_for_scripts, name_first, username, clean_sqft,
                                                clean_beds, clean_baths)
                     pyperclip.copy(text_info)
                     time.sleep(0.4)
+
                     if names:
                         title = get_title(clean_sqft, clean_beds, clean_baths, list_for_scripts, name_last, name_first)
                         # Error handling
