@@ -32,6 +32,7 @@ today = date.today()
 months_list = ("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
 month = months_list[today.month-1]
 
+market = "DFW"
 
 # Discounts:
 moving_discount = .05
@@ -40,20 +41,22 @@ onetime_discount = .05
 # Updates from the estimator on googlesheets
 # These are all the factors that need to be used to multiply the base price by to get the correct price to leads
 ot, initial, move, monthly, biweekly, weekly = 1, 1, 1, 1, 1, 1
+texas_factors = []
 
-
-def get_prices_googlesheets():
-    global ot, initial, move, monthly, biweekly, weekly
-    set_ot, set_initial, set_move, set_monthly, set_biweekly, set_weekly = map(float, update_servers())
+def get_prices_googlesheets(mark):
+    global ot, initial, move, monthly, biweekly, weekly, texas_factors
+    factors, texas_factors = update_servers(mark)
+    set_ot, set_initial, set_move, set_monthly, set_biweekly, set_weekly = map(float, factors)
+    # print(texas_factors)
     if (ot, initial, move, monthly, biweekly, weekly) == (set_ot, set_initial, set_move, set_monthly, set_biweekly, set_weekly):
         print("No change needed")
     else:
         ot, initial, move, monthly, biweekly, weekly = set_ot, set_initial, set_move, set_monthly, set_biweekly, set_weekly
         print("Prices successfully updated!")
-    print(ot, initial, move, monthly, biweekly, weekly)
+    # print(ot, initial, move, monthly, biweekly, weekly)
 
 
-get_prices_googlesheets()
+get_prices_googlesheets(market)
 
 
 def get_screenshot(com_mon=1):
@@ -265,6 +268,7 @@ class MyLayout(Screen):
                         pyperclip.copy(body_paragraph)
 
                     # ["ONETIME", "MOVE", "WEEKLY", "BIWEEKLY", "MONTHLY"]
+                    dfw_type_clean = type_clean
                     if type_clean == 0:
                         elite = before_price * ot
                     if type_clean == 1:
@@ -275,11 +279,25 @@ class MyLayout(Screen):
                         ongoing = before_price * biweekly
                     if type_clean == 4:
                         ongoing = before_price * monthly
+                    if dfw_type_clean >= 2:
+                        dfw_type_clean += 1
+
+                    # Order of cleanings is switched on the estimator to go OT initial move monthly biweekly week. So i swap the weekly and monthly numbers
+                    if dfw_type_clean == 3:
+                        dfw_type_clean = 5
+                    elif dfw_type_clean == 5:
+                        dfw_type_clean = 3
+
+                    if market == "DFW":
+                        ongoing = ongoing * texas_factors[dfw_type_clean]
+                        elite = elite * texas_factors[dfw_type_clean]
 
                     if type_clean == 2 or type_clean == 3 or type_clean == 4:
                         elite = before_price * initial
                         if ongoing < 140:
                             ongoing = 140
+                            if market == "DFW":
+                                ongoing = ongoing * texas_factors[dfw_type_clean]
                     if elite < 200:
                         elite = 200
 
@@ -389,6 +407,7 @@ class MyLayout(Screen):
                         before_price = float(baths) * 30 + float(beds) * 5 + price_sqft
 
                         # ["ONETIME", "MOVE", "WEEKLY", "BIWEEKLY", "MONTHLY"]
+                        dfw_type_clean = type_clean
                         if type_clean == 0:
                             elite = before_price * ot
                         if type_clean == 1:
@@ -399,11 +418,25 @@ class MyLayout(Screen):
                             ongoing = before_price * biweekly
                         if type_clean == 4:
                             ongoing = before_price * monthly
+                        if dfw_type_clean >= 2:
+                            dfw_type_clean += 1
+
+                        # Order of cleanings is switched on the estimator to go OT initial move monthly biweekly week. So i swap the weekly and monthly numbers
+                        if dfw_type_clean == 3:
+                            dfw_type_clean = 5
+                        elif dfw_type_clean == 5:
+                            dfw_type_clean = 3
+
+                        if market == "DFW":
+                            ongoing = ongoing * texas_factors[dfw_type_clean]
+
 
                         if type_clean == 2 or type_clean == 3 or type_clean == 4:
                             elite = before_price * initial
                             if ongoing < 140:
                                 ongoing = 140
+                                if market == "DFW":
+                                    ongoing = ongoing * texas_factors[dfw_type_clean]
                         if elite < 200:
                             elite = 200
 
@@ -513,7 +546,13 @@ class SettingWindow(Screen):
         print("Updated!")
 
     def update_price(self, btn):
-        get_prices_googlesheets()
+        global market
+        if self.ids.market_area.text != "":
+            market_id = self.ids.market_area.text.upper()
+            market = market_id
+        else:
+            market_id = market
+        get_prices_googlesheets(market_id)
         print("Updated!")
     pass
 
