@@ -427,15 +427,14 @@ class MyLayout(Screen):
                             dfw_type_clean = 3
 
                         if market == "DFW":
-                            ongoing = ongoing * texas_factors[dfw_type_clean]
-
+                            elite = elite * texas_factors[dfw_type_clean]
 
                         if type_clean == 2 or type_clean == 3 or type_clean == 4:
                             elite = before_price * initial
                             if ongoing < 140:
                                 ongoing = 140
-                                if market == "DFW":
-                                    ongoing = ongoing * texas_factors[dfw_type_clean]
+                        if market == "DFW":
+                            ongoing = ongoing * texas_factors[dfw_type_clean]
                         if elite < 200:
                             elite = 200
 
