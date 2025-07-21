@@ -417,7 +417,7 @@ class MyLayout(Screen):
                             ongoing = before_price * biweekly
                         if type_clean == 4:
                             ongoing = before_price * monthly
-                        if dfw_type_clean >= 2:
+                        if dfw_type_clean >= 1:
                             dfw_type_clean += 1
 
                         # Order of cleanings is switched on the estimator to go OT initial move monthly biweekly week. So i swap the weekly and monthly numbers
