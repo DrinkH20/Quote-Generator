@@ -6,14 +6,17 @@ import pyperclip
 import time
 from kivy.app import App
 from kivy.config import Config
-Config.set('graphics', 'width', '220')
-Config.set('graphics', 'height', '150')
-Config.set('graphics', 'position', 'custom')
-Config.set('graphics', 'resizable', 1)
-Config.set('graphics', 'left', 20)
-Config.set('graphics', 'top', 50)
+from kivy.properties import ListProperty, StringProperty
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
+# Window config
+Config.set('graphics', 'width', '220')
+Config.set('graphics', 'height', '150')
+Config.set('graphics', 'resizable', 1)
+Config.set('graphics', 'position', 'custom')
+Config.set('graphics', 'left', 20)
+Config.set('graphics', 'top', 50)
+
 import mss
 import mss.tools
 import os
@@ -32,7 +35,7 @@ today = date.today()
 months_list = ("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
 month = months_list[today.month-1]
 
-market = "DFW"
+market = "PDX"
 
 # Discounts:
 moving_discount = .05
@@ -95,6 +98,8 @@ def get_screenshot(com_mon=1):
 
 
 class MyLayout(Screen):
+    title_text = StringProperty("Get PDX Quotes")
+    title_color = ListProperty([0.2, 0.2, 0.9, 1])  # Blueish
     def change_button_type(self, change="False"):
         self.ids.cleantype.text = change
 
@@ -529,6 +534,13 @@ class CleanType(Screen):
 
 
 class SettingWindow(Screen):
+    if market == "PDX":
+        bg_color = ListProperty([0, 0, 1, 1])
+    else:
+        bg_color = ListProperty([1, 0, 0, 1])
+    title_text = StringProperty("Get PDX Quotes")
+    title_color = ListProperty([0.2, 0.2, 0.9, 1])  # Blueish
+
     def update(self, btn):
         global username
         global comp_mon
@@ -543,16 +555,29 @@ class SettingWindow(Screen):
             print("No Monitor Entered")
         print("Updated!")
 
-    def update_price(self, btn):
+    def update_price(self, *args):
         global market
-        if self.ids.market_area.text != "":
-            market_id = self.ids.market_area.text.upper()
+        market = self.ids.market_area.text.strip().lower()
+
+        # Access MyLayout screen via screen manager
+        main_screen = self.manager.get_screen("main")
+
+        if market == "dfw":
+            main_screen.title_text = "Get DFW Quotes"
+            main_screen.title_color = [0.9, 0.2, 0.2, 1]
+            self.bg_color = [1, 0, 0, 1]  # ✅ just assign a new value
+
+        elif market == "pdx":
+            main_screen.title_text = "Get PDX Quotes"
+            self.bg_color = [0, 0, 1, 1]  # ✅ not ListProperty(...)
+            main_screen.title_color = [0.2, 0.2, 0.9, 1]
+
+        market_id = self.ids.market_area.text.strip().upper()
+        if market_id:
             market = market_id
-        else:
-            market_id = market
         get_prices_googlesheets(market_id)
         print("Updated!")
-    pass
+
 
 
 class WindowManage(ScreenManager):

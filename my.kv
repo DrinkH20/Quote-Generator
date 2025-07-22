@@ -6,15 +6,32 @@ WindowManage:
 
 <MyLayout>
     name: "main"
+
     BoxLayout:
         orientation: 'vertical'
-        padding: 0
-        spacing: 0
-        size: root.width, root.height
+        size: self.size
+        pos: self.pos
+
+        # DYNAMIC HEADER FOR MAIN SCREEN
+        BoxLayout:
+            size_hint_y: None
+            height: 28
+            padding: [4, 2]
+            canvas.before:
+                Color:
+                    rgba: root.title_color
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                text: root.title_text
+                color: 1, 1, 1, 1
+                font_size: 14
+                bold: True
+
+        # REST OF YOUR UI GOES HERE
         BoxLayout:
             orientation: 'horizontal'
-            padding: 0
-            spacing: 0
             TextInput:
                 id: first_name_input
                 hint_text: "First Name"
@@ -24,9 +41,8 @@ WindowManage:
                 hint_text: "Last Name"
                 font_size: 14
             Button:
-                id: settings
-                on_press: app.root.current = "settings"
                 text: 'Settings'
+                on_press: app.root.current = "settings"
 
         BoxLayout:
             orientation: 'horizontal'
@@ -73,14 +89,19 @@ WindowManage:
 
 <SettingWindow>
     name: "settings"
+
+    canvas.before:
+        Color:
+            rgba: root.bg_color
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
     BoxLayout:
         orientation: 'vertical'
-        padding: 0
-        spacing: 0
+
         BoxLayout:
             orientation: 'horizontal'
-            padding: 0
-            spacing: 0
             TextInput:
                 id: screen_input
                 hint_text: "Enter Screen In Use"
@@ -90,16 +111,13 @@ WindowManage:
                 hint_text: "User"
                 font_size: 14
             Button:
-                id: updated
                 text: 'Update'
                 font_size: 14
-                on_press: root.update(updated)
+                on_press: root.update(self)
+
         BoxLayout:
             orientation: 'horizontal'
-            padding: 0
-            spacing: 0
             Button:
-                id: button_2
                 text: 'Back'
                 font_size: 14
                 on_press: app.root.current = "main"
@@ -108,10 +126,11 @@ WindowManage:
                 hint_text: "DFW or PDX?"
                 font_size: 14
             Button:
-                id: updated
                 text: 'Update Price'
                 font_size: 14
-                on_press: root.update_price(updated)
+                on_press: root.update_price(self)
+
+
 
 
 <CleanType>
