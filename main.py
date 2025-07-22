@@ -1,21 +1,23 @@
-from scripts import get_title, get_quote, get_title_manual, get_quote_text, failed, out_of_service_area
+from scripts import get_title, get_quote, get_title_manual, get_quote_text, failed, out_of_service_area, get_quote_text_dfw, get_quote_dfw
 from PIL import Image
 from server_price_connect import update_servers
 import pytesseract
 import pyperclip
 import time
-from kivy.app import App
 from kivy.config import Config
-from kivy.properties import ListProperty, StringProperty
-from kivy.lang import Builder
-from kivy.uix.screenmanager import ScreenManager, Screen
-# Window config
 Config.set('graphics', 'width', '220')
 Config.set('graphics', 'height', '150')
-Config.set('graphics', 'resizable', 1)
+Config.set('graphics', 'resizable', 0)  # Optional: disable resizing
 Config.set('graphics', 'position', 'custom')
 Config.set('graphics', 'left', 20)
 Config.set('graphics', 'top', 50)
+
+# Now import Kivy modules
+from kivy.app import App
+from kivy.core.window import Window
+from kivy.properties import ListProperty, StringProperty
+from kivy.lang import Builder
+from kivy.uix.screenmanager import ScreenManager, Screen
 
 import mss
 import mss.tools
@@ -100,6 +102,45 @@ def get_screenshot(com_mon=1):
 class MyLayout(Screen):
     title_text = StringProperty("Get PDX Quotes")
     title_color = ListProperty([0.2, 0.2, 0.9, 1])  # Blueish
+
+    def update_last_focused(self, instance, value):
+        if value:  # Only when it's gaining focus
+            self.last_focused = instance
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        Window.bind(on_key_down=self.on_key_down)
+        self.focus_chain = []  # We'll fill this in `on_kv_post`
+        for widget in self.focus_chain:
+            widget.bind(focus=self.update_last_focused)
+        self.last_focused = None
+
+    def on_kv_post(self, base_widget):
+        # Define focus order once widgets are loaded
+        self.focus_chain = [
+            self.ids.first_name_input,
+            self.ids.last_name_input,
+            self.ids.sqft_input,
+            self.ids.beds_input,
+            self.ids.baths_input
+        ]
+
+    def on_key_down(self, window, key, scancode, codepoint, modifiers):
+        if key == 9:  # Tab
+            shift_pressed = "shift" in modifiers
+
+            if self.last_focused and self.last_focused in self.focus_chain:
+                index = self.focus_chain.index(self.last_focused)
+
+                if shift_pressed:
+                    next_index = (index - 1) % len(self.focus_chain)
+                else:
+                    next_index = (index + 1) % len(self.focus_chain)
+
+                self.focus_chain[next_index].focus = True
+                return True  # Prevent default tab behavior
+        return False
+
     def change_button_type(self, change="False"):
         self.ids.cleantype.text = change
 
@@ -305,8 +346,13 @@ class MyLayout(Screen):
                     if elite < 200:
                         elite = 200
 
-                    text_info = get_quote_text(month, round(elite), round(ongoing), list_for_scripts, name_first, username, clean_sqft,
-                                               clean_beds, clean_baths)
+                    if market == "PDX":
+                        text_info = get_quote_text(month, round(elite), round(ongoing), list_for_scripts, name_first, username, clean_sqft,
+                                                   clean_beds, clean_baths)
+                    elif market == "DFW":
+                        text_info = get_quote_text_dfw(month, round(elite), round(ongoing), list_for_scripts, name_first,
+                                                   username, clean_sqft,
+                                                   clean_beds, clean_baths)
                     pyperclip.copy(f"Lead {name_first} {clean_last_name}")
                     time.sleep(0.4)
                     pyperclip.copy(text_info)
@@ -314,7 +360,12 @@ class MyLayout(Screen):
                     title = get_title(clean_sqft, clean_beds, clean_baths, list_for_scripts, clean_last_name, clean_first_name)
                     pyperclip.copy(title)
                     time.sleep(0.4)
-                    main_info = get_quote(month, round(elite), round(ongoing), list_for_scripts, name_first, username)
+                    if market == "PDX":
+                        main_info = get_quote(month, round(elite), round(ongoing), list_for_scripts, name_first,
+                                              username)
+                    elif market == "DFW":
+                        main_info = get_quote_dfw(month, round(elite), round(ongoing), list_for_scripts, name_first,
+                                              username)
                     pyperclip.copy(main_info)
 
                     # On the calculator on excelsheet, "NO TOUCH k9" is the same as "before price"
@@ -445,8 +496,15 @@ class MyLayout(Screen):
 
                     pyperclip.copy(f"Lead {name_first} {name_last}")
                     time.sleep(0.4)
-                    text_info = get_quote_text(month, round(elite), round(ongoing), list_for_scripts, name_first, username, clean_sqft,
-                                               clean_beds, clean_baths)
+                    if market == "PDX":
+                        text_info = get_quote_text(month, round(elite), round(ongoing), list_for_scripts, name_first,
+                                                   username, clean_sqft,
+                                                   clean_beds, clean_baths)
+                    elif market == "DFW":
+                        text_info = get_quote_text_dfw(month, round(elite), round(ongoing), list_for_scripts,
+                                                       name_first,
+                                                       username, clean_sqft,
+                                                       clean_beds, clean_baths)
                     pyperclip.copy(text_info)
                     time.sleep(0.4)
 
@@ -459,12 +517,23 @@ class MyLayout(Screen):
                         else:
                             pyperclip.copy(title)
                             time.sleep(0.4)
-                            main_info = get_quote(month, round(elite), round(ongoing), list_for_scripts, name_first, username)
+                            if market == "PDX":
+                                main_info = get_quote(month, round(elite), round(ongoing), list_for_scripts, name_first,
+                                                      username)
+                            elif market == "DFW":
+                                main_info = get_quote_dfw(month, round(elite), round(ongoing), list_for_scripts,
+                                                          name_first,
+                                                          username)
                     else:
                         title = get_title_manual(clean_sqft, clean_beds, clean_baths, list_for_scripts)
                         pyperclip.copy(title)
                         time.sleep(0.4)
-                        main_info = get_quote(month, round(elite), round(ongoing), list_for_scripts, name_first, username)
+                        if market == "PDX":
+                            main_info = get_quote(month, round(elite), round(ongoing), list_for_scripts, name_first,
+                                                  username)
+                        elif market == "DFW":
+                            main_info = get_quote_dfw(month, round(elite), round(ongoing), list_for_scripts, name_first,
+                                                      username)
                     pyperclip.copy(main_info)
                     print("Quote Complete")
 

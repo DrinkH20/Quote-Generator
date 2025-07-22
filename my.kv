@@ -36,35 +36,47 @@ WindowManage:
                 id: first_name_input
                 hint_text: "First Name"
                 font_size: 14
+                multiline: False  # required for 'on_text_validate'
+                on_text_validate: last_name_input.focus = True  # 👈 Move to first name
+                write_tab: False  # ⬅️ Prevents tab from inserting space
             TextInput:
                 id: last_name_input
                 hint_text: "Last Name"
                 font_size: 14
+                multiline: False  # required for 'on_text_validate'
+                on_text_validate: sqft_input.focus = True  # 👈 Move to last name
+                write_tab: False  # ⬅️ Prevents tab from inserting space
             Button:
                 text: 'Settings'
                 on_press: app.root.current = "settings"
 
         BoxLayout:
             orientation: 'horizontal'
-            padding: 0
-            spacing: 0
             TextInput:
                 id: sqft_input
                 hint_text: "Enter Sqft"
                 font_size: 14
+                multiline: False  # required for 'on_text_validate'
+                on_text_validate: beds_input.focus = True  # 👈 Move to beds
+                write_tab: False  # ⬅️ Prevents tab from inserting space
             TextInput:
                 id: beds_input
                 hint_text: "Enter Beds"
                 font_size: 14
+                multiline: False
+                on_text_validate: baths_input.focus = True  # 👈 Move to baths
+                write_tab: False  # ⬅️ Prevents tab from inserting space
             TextInput:
                 id: baths_input
                 hint_text: "Enter Baths"
                 font_size: 14
-
+                multiline: False
+                on_text_validate: first_name_input.focus = True  # 👈 Move to Spinner
+                write_tab: False  # ⬅️ Prevents tab from inserting space
             Spinner:
                 id: type_input
                 text: 'OneTime'
-                on_press: app.root.current = "cleantype"
+                on_release: app.root.current = "cleantype"
 
 
         BoxLayout:
