@@ -121,14 +121,16 @@ WindowManage:
                 text: 'Back'
                 font_size: 14
                 on_press: app.root.current = "main"
-            TextInput:
-                id: market_area
-                hint_text: "DFW or PDX?"
-                font_size: 14
+
             Button:
-                text: 'Update Price'
+                text: 'Price PDX'
                 font_size: 14
-                on_press: root.update_price(self)
+                on_press: root.update_price_pdx(self)
+
+            Button:
+                text: 'Price DFW'
+                font_size: 14
+                on_press: root.update_price_dfw(self)
 
 
 

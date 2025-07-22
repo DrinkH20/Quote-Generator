@@ -555,27 +555,33 @@ class SettingWindow(Screen):
             print("No Monitor Entered")
         print("Updated!")
 
-    def update_price(self, *args):
+    def update_price_pdx(self, *args):
         global market
-        market = self.ids.market_area.text.strip().lower()
+        market = "PDX"
 
         # Access MyLayout screen via screen manager
         main_screen = self.manager.get_screen("main")
 
-        if market == "dfw":
-            main_screen.title_text = "Get DFW Quotes"
-            main_screen.title_color = [0.9, 0.2, 0.2, 1]
-            self.bg_color = [1, 0, 0, 1]  # ✅ just assign a new value
 
-        elif market == "pdx":
-            main_screen.title_text = "Get PDX Quotes"
-            self.bg_color = [0, 0, 1, 1]  # ✅ not ListProperty(...)
-            main_screen.title_color = [0.2, 0.2, 0.9, 1]
+        main_screen.title_text = "Get PDX Quotes"
+        self.bg_color = [0, 0, 1, 1]  # ✅ not ListProperty(...)
+        main_screen.title_color = [0.2, 0.2, 0.9, 1]
 
-        market_id = self.ids.market_area.text.strip().upper()
-        if market_id:
-            market = market_id
-        get_prices_googlesheets(market_id)
+        get_prices_googlesheets(market)
+        print("Updated!")
+
+    def update_price_dfw(self, *args):
+        global market
+        market = "DFW"
+
+        # Access MyLayout screen via screen manager
+        main_screen = self.manager.get_screen("main")
+
+        main_screen.title_text = "Get DFW Quotes"
+        main_screen.title_color = [0.9, 0.2, 0.2, 1]
+        self.bg_color = [1, 0, 0, 1]  # ✅ just assign a new value
+
+        get_prices_googlesheets(market)
         print("Updated!")
 
 
