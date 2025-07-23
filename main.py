@@ -7,10 +7,10 @@ import time
 from kivy.config import Config
 Config.set('graphics', 'width', '220')
 Config.set('graphics', 'height', '150')
-Config.set('graphics', 'resizable', 0)  # Optional: disable resizing
 Config.set('graphics', 'position', 'custom')
 Config.set('graphics', 'left', 20)
 Config.set('graphics', 'top', 50)
+Config.set('graphics', 'resizable', 1)
 
 # Now import Kivy modules
 from kivy.app import App
@@ -334,8 +334,6 @@ class MyLayout(Screen):
                     elif dfw_type_clean == 5:
                         dfw_type_clean = 3
 
-                    if market == "DFW":
-                        elite = elite * texas_factors[dfw_type_clean]
 
                     if type_clean == 2 or type_clean == 3 or type_clean == 4:
                         elite = before_price * initial
@@ -343,8 +341,16 @@ class MyLayout(Screen):
                             ongoing = 140
                     if market == "DFW":
                         ongoing = ongoing * texas_factors[dfw_type_clean]
-                    if elite < 200:
-                        elite = 200
+                    if type_clean == 0 or type_clean == 1:
+                        if elite < 250:
+                            elite = 250
+                        if market == "DFW":
+                            elite = elite * texas_factors[dfw_type_clean]
+                    else:
+                        if market == "DFW":
+                            elite = elite * texas_factors[dfw_type_clean]
+                        if elite < 200:
+                            elite = 200
 
                     if market == "PDX":
                         text_info = get_quote_text(month, round(elite), round(ongoing), list_for_scripts, name_first, username, clean_sqft,
@@ -482,8 +488,8 @@ class MyLayout(Screen):
                         elif dfw_type_clean == 5:
                             dfw_type_clean = 3
 
-                        if market == "DFW":
-                            elite = elite * texas_factors[dfw_type_clean]
+                        # if market == "DFW":
+                        #     elite = elite * texas_factors[dfw_type_clean]
 
                         if type_clean == 2 or type_clean == 3 or type_clean == 4:
                             elite = before_price * initial
@@ -491,8 +497,16 @@ class MyLayout(Screen):
                                 ongoing = 140
                         if market == "DFW":
                             ongoing = ongoing * texas_factors[dfw_type_clean]
-                        if elite < 200:
-                            elite = 200
+                        if type_clean == 0 or type_clean == 1:
+                            if elite < 250:
+                                elite = 250
+                            if market == "DFW":
+                                elite = elite * texas_factors[dfw_type_clean]
+                        else:
+                            if market == "DFW":
+                                elite = elite * texas_factors[dfw_type_clean]
+                            if elite < 200:
+                                elite = 200
 
                     pyperclip.copy(f"Lead {name_first} {name_last}")
                     time.sleep(0.4)
