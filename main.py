@@ -334,23 +334,20 @@ class MyLayout(Screen):
                     elif dfw_type_clean == 5:
                         dfw_type_clean = 3
 
-
                     if type_clean == 2 or type_clean == 3 or type_clean == 4:
                         elite = before_price * initial
                         if ongoing < 140:
                             ongoing = 140
                     if market == "DFW":
                         ongoing = ongoing * texas_factors[dfw_type_clean]
-                    if type_clean == 0 or type_clean == 1:
-                        if elite < 250:
-                            elite = 250
-                        if market == "DFW":
-                            elite = elite * texas_factors[dfw_type_clean]
-                    else:
+                    if type_clean != 1 and type_clean != 0:
                         if market == "DFW":
                             elite = elite * texas_factors[dfw_type_clean]
                         if elite < 200:
                             elite = 200
+                    else:
+                        if elite < 250:
+                            elite = 250
 
                     if market == "PDX":
                         text_info = get_quote_text(month, round(elite), round(ongoing), list_for_scripts, name_first, username, clean_sqft,
@@ -497,16 +494,14 @@ class MyLayout(Screen):
                                 ongoing = 140
                         if market == "DFW":
                             ongoing = ongoing * texas_factors[dfw_type_clean]
-                        if type_clean == 0 or type_clean == 1:
-                            if elite < 250:
-                                elite = 250
-                            if market == "DFW":
-                                elite = elite * texas_factors[dfw_type_clean]
-                        else:
+                        if type_clean != 1 and type_clean != 0:
                             if market == "DFW":
                                 elite = elite * texas_factors[dfw_type_clean]
                             if elite < 200:
                                 elite = 200
+                        else:
+                            if elite < 250:
+                                elite = 250
 
                     pyperclip.copy(f"Lead {name_first} {name_last}")
                     time.sleep(0.4)
