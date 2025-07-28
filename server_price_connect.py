@@ -34,16 +34,6 @@ def update_servers(area):
         cell = sheet.acell(cell_ref, value_render_option='FORMULA')
         formula.append(cell.value)
 
-    # Regular expression to extract floats and integers from the first part of each formula
-    # all_floats = []
-    # for i in formula:
-    #     split_point = i.find('+')
-    #     first_half = i[:split_point]
-    #     numbers = re.findall(r'\d+\.\d+|\d+', first_half)
-    #     numbers.pop(0)  # Remove the first number as per your original logic
-    #     extracted_numbers = [float(num) if '.' in num else int(num) for num in numbers]
-    #     all_floats.append(extracted_numbers)
-    #     print(extracted_numbers)
     all_floats = []
     extracted_multipliers = []
 
