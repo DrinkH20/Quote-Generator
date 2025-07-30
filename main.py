@@ -341,8 +341,8 @@ class MyLayout(Screen):
                     if market == "DFW":
                         ongoing = ongoing * texas_factors[dfw_type_clean]
                     if type_clean != 1 and type_clean != 0:
-                        if market == "DFW":
-                            elite = elite * texas_factors[dfw_type_clean]
+                        # if market == "DFW":
+                        #     elite = elite * texas_factors[dfw_type_clean]
                         if elite < 200:
                             elite = 200
                     else:
@@ -495,8 +495,8 @@ class MyLayout(Screen):
                         if market == "DFW":
                             ongoing = ongoing * texas_factors[dfw_type_clean]
                         if type_clean != 1 and type_clean != 0:
-                            if market == "DFW":
-                                elite = elite * texas_factors[dfw_type_clean]
+                            # if market == "DFW":
+                            #     elite = elite * texas_factors[dfw_type_clean]
                             if elite < 200:
                                 elite = 200
                         else:
