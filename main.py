@@ -492,7 +492,10 @@ class MyLayout(Screen):
                             elite = before_price * initial
                             if ongoing < 140:
                                 ongoing = 140
-                        if market == "DFW":
+
+
+                        # DFW type is 6 when you select far
+                        if market == "DFW" and dfw_type_clean != 6:
                             ongoing = ongoing * texas_factors[dfw_type_clean]
                         if type_clean != 1 and type_clean != 0:
                             # if market == "DFW":
